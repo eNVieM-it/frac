@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Міжвимірні Дроби | C-137</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="space-bg"></div>
+
+    <!-- Великоднє яйце: Портал з крабом Гошею -->
+    <div class="gosha-portal-container" id="gosha-portal">
+        <img src="portal.gif" alt="Rick and Morty Portal" class="portal-gif-bg">
+        <img src="gosha.png" alt="Краб Гоша" class="gosha-crab" id="gosha-img">
+    </div>
+
+    <div class="terminal-container">
+        <header class="header">
+            <h1 class="glitch" style="font-size: clamp(1.5rem, 4vw, 3rem);" data-text="Зведення дробів до спільного знаменника">Зведення дробів до спільного знаменника</h1>
+            <p class="subtitle">Порівняння дробів</p>
+        </header>
+
+        <main>
+            <!-- Module 1: Synchronization -->
+            <section class="module">
+                <div class="module-header">
+                    <h2>> ПРОТОКОЛ_01: СИНХРОНІЗАЦІЯ ВАТІВ</h2>
+                    <p>Налаштуй рівень портальної рідини. Щоб їх об'єднати, об'єм відсіків має бути однаковим!</p>
+                </div>
+
+                <div class="lab-panel">
+                    <!-- Vat A -->
+                    <div class="vat-station">
+                        <div class="controls-card">
+                            <div class="fraction-interactive-box">
+                                <!-- Колонка підписів та кнопок -->
+                                <div class="side-controls">
+                                    <div class="control-unit">
+                                        <span class="part-label">ЧИСЕЛЬНИК:</span>
+                                        <button class="stepper-btn" onclick="changeVat('a', 'num', -1)" title="Зменшити чисельник">−</button>
+                                        <button class="stepper-btn" onclick="changeVat('a', 'num', 1)" title="Збільшити чисельник">+</button>
+                                    </div>
+                                    <div class="control-unit">
+                                        <span class="part-label">ЗНАМЕННИК:</span>
+                                        <button class="stepper-btn" onclick="changeVat('a', 'den', -1)" title="Зменшити знаменник">−</button>
+                                        <button class="stepper-btn" onclick="changeVat('a', 'den', 1)" title="Збільшити знаменник">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Класичний дріб: Чисельник / Риска прямо під ним / Знаменник -->
+                                <div class="fraction-display-math">
+                                    <div class="math-num" id="num-a">1</div>
+                                    <div class="math-fraction-line"></div>
+                                    <div class="math-den" id="den-a">2</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="vat-container">
+                            <div class="vat" id="vat-a"></div>
+                        </div>
+                    </div>
+
+                    <!-- Center Sync -->
+                    <div class="sync-center">
+                        <button id="btn-sync" class="neon-btn portal-btn">СИНХРОНІЗУВАТИ ВИМІРИ</button>
+                        <div id="sync-result" class="sync-result-card hidden">
+                            <div class="sync-title">> РЕЗУЛЬТАТ ЗВЕДЕННЯ ДО СПІЛЬНОГО:</div>
+                            <div class="sync-lcm-tag">СПІЛЬНИЙ ЗНАМЕННИК = <span class="portal-text glow-yellow" id="lcm-value">6</span></div>
+                            
+                            <div class="sync-fractions-grid">
+                                <!-- Перший дріб -->
+                                <div class="sync-frac-item">
+                                    <div class="sync-mini-frac orig-a">
+                                        <span id="orig-num-a">1</span>
+                                        <div class="mini-bar"></div>
+                                        <span id="orig-den-a">2</span>
+                                    </div>
+                                    <span class="sync-arrow">⟶</span>
+                                    <div class="sync-mini-frac new-a">
+                                        <span class="glow-green" id="new-num-a">3</span>
+                                        <div class="mini-bar neon-bar-green"></div>
+                                        <span class="glow-green" id="new-den-a">6</span>
+                                    </div>
+                                </div>
+
+                                <div class="sync-separator">|</div>
+
+                                <!-- Другий дріб -->
+                                <div class="sync-frac-item">
+                                    <div class="sync-mini-frac orig-b">
+                                        <span id="orig-num-b">1</span>
+                                        <div class="mini-bar"></div>
+                                        <span id="orig-den-b">3</span>
+                                    </div>
+                                    <span class="sync-arrow">⟶</span>
+                                    <div class="sync-mini-frac new-b">
+                                        <span class="glow-cyan" id="new-num-b">2</span>
+                                        <div class="mini-bar neon-bar-cyan"></div>
+                                        <span class="glow-cyan" id="new-den-b">6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vat B -->
+                    <div class="vat-station">
+                        <div class="controls-card">
+                            <div class="fraction-interactive-box">
+                                <!-- Колонка підписів та кнопок -->
+                                <div class="side-controls">
+                                    <div class="control-unit">
+                                        <span class="part-label">ЧИСЕЛЬНИК:</span>
+                                        <button class="stepper-btn" onclick="changeVat('b', 'num', -1)" title="Зменшити чисельник">−</button>
+                                        <button class="stepper-btn" onclick="changeVat('b', 'num', 1)" title="Збільшити чисельник">+</button>
+                                    </div>
+                                    <div class="control-unit">
+                                        <span class="part-label">ЗНАМЕННИК:</span>
+                                        <button class="stepper-btn" onclick="changeVat('b', 'den', -1)" title="Зменшити знаменник">−</button>
+                                        <button class="stepper-btn" onclick="changeVat('b', 'den', 1)" title="Збільшити знаменник">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Класичний дріб: Чисельник / Риска прямо під ним / Знаменник -->
+                                <div class="fraction-display-math">
+                                    <div class="math-num" id="num-b">1</div>
+                                    <div class="math-fraction-line math-fraction-line-cyan"></div>
+                                    <div class="math-den" id="den-b">3</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="vat-container">
+                            <div class="vat vat-cyan" id="vat-b"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2: Battle -->
+            <section class="module">
+                <div class="module-header">
+                    <h2>> ПРОТОКОЛ_02: АНАЛІЗ АНОМАЛІЙ</h2>
+                    <p>Який всесвіт має більше рідини? Обери правильний оператор порівняння, щоб уникнути колапсу.</p>
+                </div>
+
+                <div class="battle-arena">
+                    <div class="hud">
+                        <div class="hud-score-row">
+                            <span>ВИЖИВАННЯ: <span id="score" class="glow-green">0</span> ОЧОК</span>
+                        </div>
+                        
+                        <!-- Секретна Портальна Пушка (з'являється без попередніх підказок лише при 100 балах) -->
+                        <div id="portal-gun-reward" class="portal-gun-container hidden">
+                            <div class="portal-gun-trigger" id="btn-fire-portal" onclick="toggleSecretPortal()" title="Портальна пушка C-137 (клікни, щоб відкрити портал)">
+                                <img src="pngwing.com.png" alt="Портальна пушка" class="portal-gun-img">
+                                <span class="portal-gun-label">КЛІКНИ НА ПУШКУ!</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="battle-stage">
+                        <div class="alien-fraction" id="game-frac-a">
+                            <div class="g-num">2</div>
+                            <div class="g-div"></div>
+                            <div class="g-den">3</div>
+                        </div>
+                        
+                        <div class="battle-controls">
+                            <button class="neon-btn sign-btn" onclick="checkAnomaly('>')">></button>
+                            <button class="neon-btn sign-btn" onclick="checkAnomaly('=')">=</button>
+                            <button class="neon-btn sign-btn" onclick="checkAnomaly('<')"><</button>
+                        </div>
+
+                        <div class="alien-fraction" id="game-frac-b">
+                            <div class="g-num">3</div>
+                            <div class="g-div"></div>
+                            <div class="g-den">4</div>
+                        </div>
+                    </div>
+                    
+                    <div id="battle-log" class="battle-log">> ОЧІКУВАННЯ ВВОДУ...</div>
+                    <button id="btn-next" class="neon-btn portal-btn hidden" onclick="nextAnomaly()">НАСТУПНА АНОМАЛІЯ</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

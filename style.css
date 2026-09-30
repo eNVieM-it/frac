@@ -1,0 +1,669 @@
+:root {
+    --bg-dark: #07080a;
+    --neon-green: #39ff14;
+    --neon-cyan: #0df2cc;
+    --neon-red: #ff003c;
+    --neon-yellow: #d9e825;
+    --glass: rgba(11, 12, 16, 0.85);
+    --border-green: rgba(57, 255, 20, 0.5);
+    
+    --font-title: 'Bungee', cursive;
+    --font-sys: 'Space Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--neon-green);
+    font-family: var(--font-sys);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Deep Space & Scanlines */
+.space-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, #111424 0%, #07080a 100%);
+    z-index: -2;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Easter Egg: Crab Gosha Portal (Secretly hidden until unlocked) */
+.gosha-portal-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 220px;
+    height: 220px;
+    z-index: 90;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0) rotate(-45deg);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+/* Коли портал відкривається портальною пушкою */
+.gosha-portal-container.portal-active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) rotate(0deg);
+    pointer-events: auto;
+    animation: portalFloat 6s ease-in-out infinite;
+}
+
+@keyframes portalFloat {
+    0%, 100% { margin-bottom: 0px; }
+    50% { margin-bottom: 15px; }
+}
+
+/* Сяючий оригінальний GIF-портал Ріка та Морті з Tenor */
+.portal-gif-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 0 25px #39ff14);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Краб Гоша */
+.gosha-crab {
+    position: absolute;
+    bottom: 25px;
+    left: 20px;
+    width: 175px;
+    height: auto;
+    z-index: 2;
+    transform-origin: 75% 85%; /* Вісь обертання тіла краба */
+    transform: rotate(-10deg);
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+    animation: goshaIdle 3s ease-in-out infinite alternate;
+}
+
+/* При наведенні курсору активно махає великою клешнею */
+.gosha-portal-container:hover .gosha-crab,
+.gosha-portal-container.peek-out .gosha-crab {
+    animation: goshaClawWave 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes goshaIdle {
+    0% { transform: rotate(-12deg) translateY(0); }
+    100% { transform: rotate(-6deg) translateY(-5px); }
+}
+
+@keyframes goshaClawWave {
+    0% {
+        transform: rotate(-14deg) translateY(-4px) scale(1.08);
+    }
+    100% {
+        transform: rotate(18deg) translateY(-18px) scale(1.12);
+    }
+}
+
+/* Container */
+.terminal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header & Glitch */
+.header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px dashed var(--border-green);
+}
+
+.glitch {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: var(--neon-yellow);
+    font-size: 1.2rem;
+}
+
+/* Modules (Sections) */
+.module {
+    background: var(--glass);
+    border: 2px solid var(--border-green);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.1), 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.module-header h2 {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: var(--neon-cyan);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.module-header p {
+    color: #8892b0;
+    margin-bottom: 2rem;
+}
+
+/* Lab Panel / Visualizer */
+.lab-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #222;
+    border-radius: 10px;
+}
+
+.vat-station {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+/* Neon Buttons */
+.neon-btn {
+    background: transparent;
+    color: var(--neon-green);
+    border: 1px solid var(--neon-green);
+    font-family: var(--font-sys);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 5px rgba(57,255,20,0.2), inset 0 0 5px rgba(57,255,20,0.2);
+}
+
+.neon-btn:hover {
+    background: var(--neon-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px var(--neon-green);
+}
+
+.neon-btn.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.text-red {
+    color: var(--neon-red);
+    border-color: var(--neon-red);
+    box-shadow: 0 0 5px rgba(255,0,60,0.2), inset 0 0 5px rgba(255,0,60,0.2);
+}
+.text-red:hover {
+    background: var(--neon-red);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--neon-red);
+}
+
+.portal-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-family: var(--font-title);
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 5px var(--neon-green); }
+    50% { box-shadow: 0 0 20px var(--neon-green), inset 0 0 10px var(--neon-green); }
+    100% { box-shadow: 0 0 5px var(--neon-green); }
+}
+
+/* Controls Card & Mathematical Fraction */
+.controls-card {
+    background: #000;
+    border: 2px solid #282c37;
+    border-radius: 12px;
+    padding: 0.9rem 1.4rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    min-width: 290px;
+}
+
+.fraction-interactive-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.side-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.control-unit {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.part-label {
+    font-size: 0.75rem;
+    color: #7b889b;
+    letter-spacing: 1px;
+    width: 95px;
+    text-align: left;
+}
+
+.stepper-btn {
+    width: 30px;
+    height: 30px;
+    background: rgba(57, 255, 20, 0.08);
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: var(--font-sys);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.stepper-btn:hover {
+    background: var(--neon-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px var(--neon-green);
+    transform: scale(1.08);
+}
+
+.stepper-btn:active {
+    transform: scale(0.95);
+}
+
+.vat-station:nth-of-type(3) .stepper-btn {
+    background: rgba(13, 242, 204, 0.08);
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+
+.vat-station:nth-of-type(3) .stepper-btn:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* Шкільний дріб: Чисельник суворо над рискою, Знаменник суворо під нею */
+.fraction-display-math {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.6rem;
+    min-width: 65px;
+}
+
+.math-num, .math-den {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+    text-align: center;
+    font-family: var(--font-sys);
+}
+
+.math-fraction-line {
+    width: 100%;
+    min-width: 50px;
+    height: 3px;
+    background: var(--neon-green);
+    border-radius: 2px;
+    margin: 4px 0;
+    box-shadow: 0 0 8px var(--neon-green);
+}
+
+.math-fraction-line-cyan {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* Vats */
+.vat-container {
+    width: 120px;
+    height: 300px;
+    background: #111;
+    border: 4px solid #444;
+    border-radius: 10px 10px 30px 30px;
+    padding: 4px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.9);
+}
+
+.vat {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.v-cell {
+    flex: 1;
+    border-bottom: 2px solid rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+}
+
+.v-cell:last-child { border-bottom: none; border-radius: 0 0 22px 22px; }
+.v-cell:first-child { border-radius: 4px 4px 0 0; }
+
+#vat-a .v-cell.filled {
+    background: var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-green);
+    opacity: 0.8;
+}
+
+#vat-b .v-cell.filled {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+    opacity: 0.8;
+}
+
+/* Sync Center */
+.sync-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+/* Sync Result Card & Aesthetic Fractions Display */
+.sync-result-card {
+    background: rgba(10, 15, 20, 0.95);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sync-title {
+    font-size: 0.85rem;
+    color: #8892b0;
+    letter-spacing: 1px;
+}
+
+.sync-lcm-tag {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.glow-yellow {
+    color: var(--neon-yellow);
+    font-size: 1.4rem;
+    text-shadow: 0 0 8px var(--neon-yellow);
+}
+
+.sync-fractions-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.4rem;
+    margin-top: 0.4rem;
+    padding: 0.8rem 1.2rem;
+    background: #000;
+    border: 1px solid #222;
+    border-radius: 8px;
+}
+
+.sync-frac-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.sync-arrow {
+    color: var(--neon-yellow);
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.sync-separator {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+.sync-mini-frac {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    min-width: 32px;
+    font-family: var(--font-sys);
+}
+
+.mini-bar {
+    width: 100%;
+    min-width: 26px;
+    height: 2px;
+    background: #555;
+    margin: 3px 0;
+}
+
+.neon-bar-green {
+    background: var(--neon-green);
+    box-shadow: 0 0 6px var(--neon-green);
+    height: 3px;
+}
+
+.neon-bar-cyan {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 6px var(--neon-cyan);
+    height: 3px;
+}
+
+.glow-cyan {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.hidden { display: none !important; }
+
+/* Battle Arena */
+.battle-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hud {
+    font-size: 1.5rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+}
+
+.hud-score-row {
+    font-family: var(--font-sys);
+    font-weight: 700;
+}
+
+/* Нагорода: Справжня Портальна Пушка (pngwing.com.png) */
+.portal-gun-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    animation: rewardPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes rewardPulse {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(57, 255, 20, 0.9)); }
+}
+
+.portal-gun-trigger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--neon-green);
+    border-radius: 16px;
+    padding: 0.8rem 1.4rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+.portal-gun-trigger:hover {
+    transform: scale(1.08) translateY(-4px);
+    border-color: #fff;
+    box-shadow: 0 0 35px var(--neon-green), inset 0 0 15px rgba(57, 255, 20, 0.3);
+}
+
+.portal-gun-trigger:active {
+    transform: scale(0.96);
+}
+
+.portal-gun-trigger.active {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 30px var(--neon-red);
+}
+
+.portal-gun-trigger.active .portal-gun-label {
+    color: var(--neon-red);
+}
+
+.portal-gun-img {
+    width: 140px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));
+    transition: transform 0.2s ease;
+}
+
+.portal-gun-trigger:hover .portal-gun-img {
+    filter: drop-shadow(0 0 18px var(--neon-green));
+}
+
+.portal-gun-label {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: var(--neon-green);
+    letter-spacing: 1.5px;
+    margin-top: 0.4rem;
+    font-family: var(--font-sys);
+}
+
+.glow-green { text-shadow: 0 0 10px var(--neon-green); }
+
+.battle-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    width: 100%;
+}
+
+.alien-fraction {
+    font-family: var(--font-title);
+    font-size: 4rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+.g-div {
+    width: 120px;
+    height: 8px;
+    background: var(--neon-green);
+    margin: 0.5rem 0;
+    box-shadow: 0 0 10px var(--neon-green);
+}
+
+.battle-controls {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.sign-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+.sign-btn:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.battle-log {
+    background: #000;
+    border: 1px solid #333;
+    padding: 1rem 2rem;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    font-family: var(--font-sys);
+    color: #888;
+}
+
+@media (max-width: 900px) {
+    .lab-panel, .battle-stage {
+        flex-direction: column;
+    }
+}
